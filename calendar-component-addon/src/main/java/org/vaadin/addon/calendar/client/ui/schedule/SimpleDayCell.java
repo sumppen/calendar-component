@@ -25,10 +25,13 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ui.FocusableFlowPanel;
+import org.apache.logging.log4j.LogManager;
 import org.vaadin.addon.calendar.client.DateConstants;
 import org.vaadin.addon.calendar.client.ui.VCalendar;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A class representing a single cell within the calendar in month-view
@@ -86,6 +89,7 @@ public class SimpleDayCell extends FocusableFlowPanel implements MouseUpHandler,
 
     private Widget clickedWidget;
     private MonthGrid monthGrid;
+    private Logger logger = Logger.getLogger(SimpleDayCell.class.getName());
 
     public SimpleDayCell(VCalendar calendar, int row, int cell) {
         this.calendar = calendar;
@@ -156,7 +160,7 @@ public class SimpleDayCell extends FocusableFlowPanel implements MouseUpHandler,
         } else {
             intHeight = px - BORDERPADDINGSIZE;
         }
-
+        logger.log(Level.FINEST,"setHeightPX: " + intHeight);
         // Couldn't measure height or it ended up negative. Don't bother
         // continuing
         if (intHeight == -1) {
@@ -180,15 +184,21 @@ public class SimpleDayCell extends FocusableFlowPanel implements MouseUpHandler,
             }
 
         } else {
-
            slots = (intHeight - caption.getOffsetHeight() - bottomSpacerHeight) / eventHeight;
            if (slots > 10) {
                slots = 10;
            }
         }
-
-        setHeight(intHeight + "px"); // Fixed height
-
+        logger.log(Level.FINEST,"slots: " + slots);
+        if (slots < 2) {
+            slots = 2;
+            int height = (slots * eventHeight) + caption.getOffsetHeight() + bottomSpacerHeight;
+            logger.log(Level.FINEST, "height: " + height);
+            setHeight(height + "px"); // Fixed height
+        } else {
+            setHeight(intHeight + "px"); // Fixed height
+        }
+        logger.log(Level.FINEST,"slots: " + slots);
         updateItems(slots, clear);
 
     }

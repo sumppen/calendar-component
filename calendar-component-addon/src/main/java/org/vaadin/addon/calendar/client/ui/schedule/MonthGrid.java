@@ -23,6 +23,7 @@ import org.vaadin.addon.calendar.client.DateConstants;
 import org.vaadin.addon.calendar.client.ui.VCalendar;
 
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -162,6 +163,7 @@ public class MonthGrid extends FocusableGrid implements KeyDownHandler {
         int widthRemainder = totalWidthPX % cells;
 
         // Division for cells might not be even. Distribute it evenly to will whole space.
+        getLogger().log(Level.FINE, "totalHeightPX: "+totalHeightPX);
         int cellHeight = (totalHeightPX / rows) - 1;
         int heightRemainder = totalHeightPX % rows;
 

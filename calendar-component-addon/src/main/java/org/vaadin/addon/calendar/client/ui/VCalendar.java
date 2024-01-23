@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.vaadin.addon.calendar.client.CalendarState;
@@ -645,6 +646,7 @@ public class VCalendar extends Composite implements VHasDropHandler {
     public void setSizeForChildren(int newWidth, int newHeight) {
         intWidth = newWidth;
         intHeight = newHeight;
+        getLogger().log(Level.FINE, "intHeight: "+intHeight);
         isWidthUndefined = intWidth == -1;
         isHeightUndefined = intHeight == -1;
         dayToolbar.setVerticalSized(isHeightUndefined);
